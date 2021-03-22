@@ -10,7 +10,8 @@ services:
         volumes:
           - ./opt:/opt
           - ./log:/var/log
-          - ./www:/var/www
+          - ${APP_PATH_SRC}:/var/www
+          - ${APP_PATH_WWW}:/var/www/public
 
     nginx:
         build:
@@ -25,7 +26,8 @@ services:
         volumes:
           - ./opt:/opt
           - ./log:/var/log
-          - ./www:/var/www
+          - ${APP_PATH_SRC}:/var/www
+          - ${APP_PATH_WWW}:/var/www/public
           - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
           - ./docker/nginx/conf.d/:/etc/nginx/conf.d
           - ./docker/nginx/sites/:/etc/nginx/sites-available
@@ -63,7 +65,8 @@ services:
         volumes:
           - ./opt:/opt
           - ./log:/var/log
-          - ./www:/var/www
+          - ${APP_PATH_SRC}:/var/www
+          - ${APP_PATH_WWW}:/var/www/public
 
 networks:
   default:
