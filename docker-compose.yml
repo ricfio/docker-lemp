@@ -56,6 +56,8 @@ services:
     php:
         build:
           context: ./docker/php
+          args:
+            - PHP_VERSION=${PHP_VERSION:-7.4.16}
         container_name: ${APP_NAME}_php
         environment:
           - APP_ENV=${APP_ENV}

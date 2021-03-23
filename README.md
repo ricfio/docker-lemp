@@ -37,15 +37,16 @@ Move in the app (docker-lemp) folder:
 
 You can customize the configuration changing some variables in the .env file:  
 
-|  Key                | Current value | Description         |
-|---------------------|:-------------:|---------------------|
-| APP_NAME            | app           | Application name    |
-| HTTP_PORT           | 8080          | HTTP port           |
-| HTTPS_PORT          | 8443          | HTTPS port          |
-| MYSQL_PORT          | 3306          | MySQL port          |
-| MYSQL_USER          | user          | MySQL user          |
-| MYSQL_PASSWORD      | user          | MySQL password      |
-| MYSQL_ROOT_PASSWORD | root          | MySQL root password |
+|  Key                | Current value | Description         | Notes         |
+|---------------------|:-------------:|---------------------|-------------------------------------------------------------------------|
+| APP_NAME            | app           | Application name    |                                                                         |
+| HTTP_PORT           | 8080          | HTTP port           |                                                                         |
+| HTTPS_PORT          | 8443          | HTTPS port          |                                                                         |
+| MYSQL_PORT          | 3306          | MySQL port          |                                                                         |
+| MYSQL_USER          | user          | MySQL user          |                                                                         |
+| MYSQL_PASSWORD      | user          | MySQL password      |                                                                         |
+| MYSQL_ROOT_PASSWORD | root          | MySQL root password |                                                                         |
+| PHP_VERSION         | 7.4.16        | PHP version         | [Docker Image](https://hub.docker.com/_/php): {$PHP_VERSION}-fpm-alpine |
 
 Build the Docker Containers:  
 `docker-compose build`  

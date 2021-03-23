@@ -1,4 +1,5 @@
-FROM php:fpm-alpine
+ARG PHP_VERSION=7.4.16
+FROM php:$PHP_VERSION-fpm-alpine
 
 WORKDIR /var/www
 
