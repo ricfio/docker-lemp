@@ -47,6 +47,7 @@ You can customize the configuration changing some variables in the .env file:
 | MYSQL_PASSWORD      | user          | MySQL password      |                                                                         |
 | MYSQL_ROOT_PASSWORD | root          | MySQL root password |                                                                         |
 | PHP_VERSION         | 7.4.16        | PHP version         | [Docker Image](https://hub.docker.com/_/php): {$PHP_VERSION}-fpm-alpine |
+| TZ                  | Europe/Rome   | TimeZone            |                                                                         |
 
 Build the Docker Containers:  
 `docker-compose build`  
