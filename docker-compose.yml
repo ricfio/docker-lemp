@@ -1,75 +1,74 @@
 services:
+  linux:
+      build:
+        context: ./docker/linux
+      container_name: ${APP_NAME}_linux
+      hostname: ${APP_NAME}_linux
+      stdin_open: true # docker run -i
+      tty: true        # docker run -t
+      volumes:
+        - ./opt:/opt
+        - ./log:/var/log
+        - ${APP_PATH_SRC}:/var/www
+        - ${APP_PATH_WWW}:/var/www/public
 
-    linux:
-        build:
-          context: ./docker/linux
-        container_name: ${APP_NAME}_linux
-        hostname: ${APP_NAME}_linux
-        stdin_open: true # docker run -i
-        tty: true        # docker run -t
-        volumes:
-          - ./opt:/opt
-          - ./log:/var/log
-          - ${APP_PATH_SRC}:/var/www
-          - ${APP_PATH_WWW}:/var/www/public
+  nginx:
+      build:
+        context: ./docker/nginx
+      container_name: ${APP_NAME}_nginx
+      depends_on:
+        - php
+      hostname: ${APP_NAME}_nginx
+      ports:
+        - "${HTTP_PORT}:80"
+        - "${HTTPS_PORT}:443"
+      volumes:
+        - ./opt:/opt
+        - ./log:/var/log
+        - ${APP_PATH_SRC}:/var/www
+        - ${APP_PATH_WWW}:/var/www/public
+        - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+        - ./docker/nginx/conf.d/:/etc/nginx/conf.d
+        - ./docker/nginx/sites/:/etc/nginx/sites-available
 
-    nginx:
-        build:
-          context: ./docker/nginx
-        container_name: ${APP_NAME}_nginx
-        depends_on:
-          - php
-        hostname: ${APP_NAME}_nginx
-        ports:
-          - "${HTTP_PORT}:80"
-          - "${HTTPS_PORT}:443"
-        volumes:
-          - ./opt:/opt
-          - ./log:/var/log
-          - ${APP_PATH_SRC}:/var/www
-          - ${APP_PATH_WWW}:/var/www/public
-          - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
-          - ./docker/nginx/conf.d/:/etc/nginx/conf.d
-          - ./docker/nginx/sites/:/etc/nginx/sites-available
-
-    mysql:
-        build:
-          context: ./docker/mysql
-          args:
-            - MYSQL_DATABASE=${APP_NAME}
-            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-        container_name: ${APP_NAME}_mysql
-        environment:
+  mysql:
+      build:
+        context: ./docker/mysql
+        args:
           - MYSQL_DATABASE=${APP_NAME}
-          - MYSQL_USER=${MYSQL_USER}
-          - MYSQL_PASSWORD=${MYSQL_PASSWORD}
           - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-        hostname: ${APP_NAME}_mysql
-        ports:
-          - "${MYSQL_PORT}:3306"
-        volumes:
-          - ./opt:/opt
-          - ./log:/var/log
-          - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
-          - ./docker/mysql/data:/var/lib/mysql
+      container_name: ${APP_NAME}_mysql
+      environment:
+        - MYSQL_DATABASE=${APP_NAME}
+        - MYSQL_USER=${MYSQL_USER}
+        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      hostname: ${APP_NAME}_mysql
+      ports:
+        - "${MYSQL_PORT}:3306"
+      volumes:
+        - ./opt:/opt
+        - ./log:/var/log
+        - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+        - ./docker/mysql/data:/var/lib/mysql
 
-    php:
-        build:
-          context: ./docker/php
-          args:
-            - PHP_VERSION=${PHP_VERSION:-7.4.16}
-            - TZ=${TZ:-Europe/London}
-        container_name: ${APP_NAME}_php
-        environment:
-          - APP_ENV=${APP_ENV}
-          - APP_SECRET=${APP_SECRET}
-          - DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:${MYSQL_PORT}/${APP_NAME}?serverVersion=5.7
-        hostname: ${APP_NAME}_php
-        volumes:
-          - ./opt:/opt
-          - ./log:/var/log
-          - ${APP_PATH_SRC}:/var/www
-          - ${APP_PATH_WWW}:/var/www/public
+  php:
+      build:
+        context: ./docker/php
+        args:
+          - PHP_VERSION=${PHP_VERSION:-7.4.16}
+          - TZ=${TZ:-Europe/London}
+      container_name: ${APP_NAME}_php
+      environment:
+        - APP_ENV=${APP_ENV}
+        - APP_SECRET=${APP_SECRET}
+        - DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:${MYSQL_PORT}/${APP_NAME}?serverVersion=5.7
+      hostname: ${APP_NAME}_php
+      volumes:
+        - ./opt:/opt
+        - ./log:/var/log
+        - ${APP_PATH_SRC}:/var/www
+        - ${APP_PATH_WWW}:/var/www/public
 
 networks:
   default:
