@@ -21,18 +21,18 @@ The solution includes also extra software and tools:
 - [Symphony](https://symfony.com/)
 
 ## Aliases for docker-compose commands
-You can use shortcuts for container commands and docker-compose commands.  
+You can use shortcuts for docker-compose commands and container commands.  
 
-Exec this command from shell to add the aliases:  
+Execute this command from shell to add the aliases:  
 `. .aliases`  
 
 Now following shortcuts will be available.  
 
-
-Shortcuts for exec commands inside the containers:  
+Shortcuts for docker-compose commands or to execute commands inside the containers:  
 
 | shortcut            | command                          | description         |
 |---------------------|----------------------------------|---------------------|
+| dc                  | docker-compose                   |                     |
 | dc-linux            | docker-compose exec linux bash   | Linux (bash)        |
 | dc-php              | docker-compose exec php php      | PHP                 |
 | dc-composer         | docker-compose exec php composer | Composer            |
@@ -40,19 +40,19 @@ Shortcuts for exec commands inside the containers:
 | dc-mysql            | docker-compose exec mysql mysql  | MySQL               |
 
 
-Shortcuts for docker-compose commands:  
+Examples:
 
 | shortcut            | command                          | description         |
 |---------------------|----------------------------------|---------------------|
-| dcbuild             | docker-compose build             |                     |
-| dcup                | docker-compose up -d             |                     |
-| dcdown              | docker-compose down              |                     |
-| dcstart             | docker-compose start             |                     |
-| dcstop              | docker-compose stop              |                     |
-| dcrestart           | docker-compose restart           |                     |
-| dclogs              | docker-compose logs -f           |                     |
-| dcimages            | docker-compose images            |                     |
-| dcps                | docker-compose ps                |                     |
+| dc build            | docker-compose build             |                     |
+| dc up -d            | docker-compose up -d             |                     |
+| dc down             | docker-compose down              |                     |
+| dc start            | docker-compose start             |                     |
+| dc stop             | docker-compose stop              |                     |
+| dc restart          | docker-compose restart           |                     |
+| dc logs -f          | docker-compose logs -f           |                     |
+| dc images           | docker-compose images            |                     |
+| dc ps               | docker-compose ps                |                     |
 
 # Setup
 
