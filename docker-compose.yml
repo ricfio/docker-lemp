@@ -9,43 +9,48 @@ services:
     volumes:
       - ./opt:/opt
       - ./log:/var/log
-      - ${APP_PATH_SRC}:/var/www
-      - ${APP_PATH_WWW}:/var/www/public
+      - ${APP_PATH_SRC}:/root/src
+      - ${APP_PATH_TEST}:/root/test
+      - ${APP_PATH_WWW}:/var/www
 
   nginx:
-    build:
-      context: ./docker/nginx
+    image: nginx:${NGINX_VERSION:-1.19}-alpine
     container_name: ${APP_NAME}_nginx
     depends_on:
       - php
+    environment:
+      - NGINX_ENVSUBST_OUTPUT_DIR=/etc/nginx/conf.d
+      - NGINX_ENVSUBST_TEMPLATE_DIR=/etc/nginx/templates
+      - NGINX_ENVSUBST_TEMPLATE_SUFFIX=.template
+      - NGINX_HOST=${NGINX_HOST:-localhost}
+      - NGINX_ROOT=${NGINX_ROOT:-/var/www}
     hostname: ${APP_NAME}_nginx
     ports:
-      - "${HTTP_PORT}:80"
-      - "${HTTPS_PORT}:443"
+      - "${NGINX_PORT_HTTP:-80}:80"
+      - "${NGINX_PORT_HTTPS:-443}:443"
     volumes:
       - ./opt:/opt
       - ./log:/var/log
-      - ${APP_PATH_SRC}:/var/www
-      - ${APP_PATH_WWW}:/var/www/public
-      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./docker/nginx/conf.d/:/etc/nginx/conf.d
-      - ./docker/nginx/sites/:/etc/nginx/sites-available
-        
+      - ${APP_PATH_SRC}:/root/src
+      - ${APP_PATH_TEST}:/root/test
+      - ${APP_PATH_WWW}:/var/www
+      - ./docker/nginx/templates:/etc/nginx/templates
+
   mysql:
     build:
       context: ./docker/mysql
       args:
         - MYSQL_DATABASE=${APP_NAME}
-        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-root}
     container_name: ${APP_NAME}_mysql
     environment:
       - MYSQL_DATABASE=${APP_NAME}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-root}
     hostname: ${APP_NAME}_mysql
     ports:
-      - "${MYSQL_PORT}:3306"
+      - "${MYSQL_PORT:-3306}:3306"
     volumes:
       - ./opt:/opt
       - ./log:/var/log
@@ -57,7 +62,7 @@ services:
       context: ./docker/php
       args:
         - PHP_VERSION=${PHP_VERSION:-7.4.16}
-        - TZ=${TZ:-Europe/London}
+        - PHP_SYSTEM_TZ=${PHP_SYSTEM_TZ:-Europe/London}
     container_name: ${APP_NAME}_php
     environment:
       - APP_ENV=${APP_ENV}
@@ -67,8 +72,9 @@ services:
     volumes:
       - ./opt:/opt
       - ./log:/var/log
-      - ${APP_PATH_SRC}:/var/www
-      - ${APP_PATH_WWW}:/var/www/public
+      - ${APP_PATH_SRC}:/root/src
+      - ${APP_PATH_TEST}:/root/test
+      - ${APP_PATH_WWW}:/var/www
 
 networks:
   default:

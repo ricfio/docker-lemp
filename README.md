@@ -69,19 +69,26 @@ Clone LEMP from the repository into your app folder:
 Move in the app (docker-lemp) folder:  
 `cd app`  
 
-You can customize the configuration changing some variables in the .env file:  
+You can customize the configuration changing several variables in the .env file.  
+Following some example:  
 
-| Key                 | Current value | Description         | Notes                                                                   |
-|---------------------|:-------------:|---------------------|-------------------------------------------------------------------------|
-| APP_NAME            | app           | Application name    |                                                                         |
-| HTTP_PORT           | 8080          | HTTP port           |                                                                         |
-| HTTPS_PORT          | 8443          | HTTPS port          |                                                                         |
-| MYSQL_PORT          | 3306          | MySQL port          |                                                                         |
-| MYSQL_USER          | user          | MySQL user          |                                                                         |
-| MYSQL_PASSWORD      | user          | MySQL password      |                                                                         |
-| MYSQL_ROOT_PASSWORD | root          | MySQL root password |                                                                         |
-| PHP_VERSION         | 7.4.16        | PHP version         | [Docker Image](https://hub.docker.com/_/php): {$PHP_VERSION}-fpm-alpine |
-| TZ                  | Europe/Rome   | TimeZone            |                                                                         |
+| Key                 | Current value   | Description             |
+|---------------------|:---------------:|-------------------------|
+| APP_NAME            | app             | Application name        |
+| APP_PATH_SRC        | ./src           | Application src path    |
+| APP_PATH_TEST       | ./test          | Application test path   |
+| APP_PATH_WWW        | ./www           | Application www path    |
+| NGINX_VERSION       | 1.19            | NGINX version           |
+| NGINX_HOST          | localhost       | NGINX server_name       |
+| NGINX_ROOT          | /var/www/public | NGINX root              |
+| NGINX_PORT_HTTP     | 80              | NGINX http port         |
+| NGINX_PORT_HTTPS    | 443             | NGINX https port        |
+| MYSQL_USER          | user            | MySQL user              |
+| MYSQL_PASSWORD      | user            | MySQL password          |
+| MYSQL_ROOT_PASSWORD | root            | MySQL root password     |
+| MYSQL_PORT          | 3306            | MySQL port              |
+| PHP_VERSION         | 7.4.16          | PHP version             |
+| PHP_SYSTEM_TZ       | Europe/Rome     | PHP timezone            |
 
 Build the Docker Containers:  
 `docker-compose build`  

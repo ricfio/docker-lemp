@@ -3,9 +3,21 @@ server {
     listen 80 default_server;
     listen [::]:80 default_server ipv6only=on;
 
-    server_name localhost;
-    root /var/www/public;
-    index index.php index.html index.htm;
+    server_name ${NGINX_HOST};
+    root ${NGINX_ROOT};
+    index index.php index.html;
+
+    #charset koi8-r;
+    #access_log  /var/log/nginx/host.access.log  main;
+
+    #error_page  404              /404.html;
+
+    # redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
 
     location / {
          try_files $uri $uri/ /index.php$is_args$args;
@@ -26,10 +38,5 @@ server {
 
     location ~ /\.ht {
         deny all;
-    }
-
-    location /.well-known/acme-challenge/ {
-        root /var/www/letsencrypt/;
-        log_not_found off;
     }
 }
