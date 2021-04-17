@@ -1,0 +1,19 @@
+alias dcbuild='docker-compose build'
+
+alias dcup='docker-compose up -d'
+alias dcdown='docker-compose down'
+
+alias dcstart='docker-compose start'
+alias dcstop='docker-compose stop'
+alias dcrestart='docker-compose restart'
+
+alias dclogs='docker-compose logs -f'
+
+alias dcimages='docker-compose images'
+alias dcps='docker-compose ps'
+
+alias dc-linux='docker-compose exec linux bash'
+alias dc-php='docker-compose exec php php'
+alias dc-composer='docker-compose exec php composer'
+alias dc-symfony='docker-compose exec php symfony'
+alias dc-mysql='docker-compose exec mysql mysql'

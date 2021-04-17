@@ -8,7 +8,7 @@ The term LEMP is an acronym that represents the environment configuration, based
 - [**M**ySQL](https://www.mysql.com/) database to store data  
 - [**P**HP](https://www.php.net/) to process dynamic content  
 
-The environment uses the following Docker Containers availables in [Docker Hub](https://hub.docker.com/):  
+The environment uses the following Docker Containers availables on [Docker Hub](https://hub.docker.com/):  
 - [Alpine](https://alpinelinux.org/) (Docker Hub: [alpine:latest](https://hub.docker.com/_/alpine))
 - [NGINX](https://www.nginx.com/) (Docker Hub: [nginx:alpine](https://hub.docker.com/_/nginx))
 - [MariaDB](https://mariadb.org/) (Docker Hub: [mariadb:latest](https://hub.docker.com/_/mariadb))
@@ -19,6 +19,40 @@ The solution includes also extra software and tools:
 - [Git](https://https://git-scm.com/)
 - [Composer](https://getcomposer.org/)
 - [Symphony](https://symfony.com/)
+
+## Aliases for docker-compose commands
+You can use shortcuts for container commands and docker-compose commands.  
+
+Exec this command from shell to add the aliases:  
+`. .aliases`  
+
+Now following shortcuts will be available.  
+
+
+Shortcuts for exec commands inside the containers:  
+
+| shortcut            | command                          | description         |
+|---------------------|----------------------------------|---------------------|
+| dc-linux            | docker-compose exec linux bash   | Linux (bash)        |
+| dc-php              | docker-compose exec php php      | PHP                 |
+| dc-composer         | docker-compose exec php composer | Composer            |
+| dc-symfony          | docker-compose exec php symfony  | Symfony             |
+| dc-mysql            | docker-compose exec mysql mysql  | MySQL               |
+
+
+Shortcuts for docker-compose commands:  
+
+| shortcut            | command                          | description         |
+|---------------------|----------------------------------|---------------------|
+| dcbuild             | docker-compose build             |                     |
+| dcup                | docker-compose up -d             |                     |
+| dcdown              | docker-compose down              |                     |
+| dcstart             | docker-compose start             |                     |
+| dcstop              | docker-compose stop              |                     |
+| dcrestart           | docker-compose restart           |                     |
+| dclogs              | docker-compose logs -f           |                     |
+| dcimages            | docker-compose images            |                     |
+| dcps                | docker-compose ps                |                     |
 
 # Setup
 
@@ -37,7 +71,7 @@ Move in the app (docker-lemp) folder:
 
 You can customize the configuration changing some variables in the .env file:  
 
-|  Key                | Current value | Description         | Notes         |
+| Key                 | Current value | Description         | Notes                                                                   |
 |---------------------|:-------------:|---------------------|-------------------------------------------------------------------------|
 | APP_NAME            | app           | Application name    |                                                                         |
 | HTTP_PORT           | 8080          | HTTP port           |                                                                         |
@@ -79,6 +113,14 @@ ebdf2c240848   lemp_linux   "bash"                   30 seconds ago   Up 30 seco
 775dd4387a8e   lemp_nginx   "/docker-entrypoint.…"   30 seconds ago   Up 30 seconds   0.0.0.0:8080->80/tcp, 0.0.0.0:8443->443/tcp   app_nginx
 24d77f6138b3   lemp_mysql   "docker-entrypoint.s…"   30 seconds ago   Up 30 seconds   0.0.0.0:3306->3306/tcp                        app_mysql
 6763b26b9e20   lemp_php     "docker-php-entrypoi…"   30 seconds ago   Up 30 seconds   9000/tcp                                      app_php
+```
+
+`docker-compose ps`  
+```
+app_linux   bash                            Up
+app_nginx   /docker-entrypoint.sh nginx     Up      0.0.0.0:8443->443/tcp, 0.0.0.0:80->80/tcp
+app_mysql   docker-entrypoint.sh mysqld     Up      0.0.0.0:3306->3306/tcp
+app_php     docker-php-entrypoint php-fpm   Up      0.0.0.0:9000->9000/tcp
 ```
 
 Start all services with logs on console (CTRC+C to stop all services):  
@@ -125,27 +167,26 @@ So, you can:
 
 ## Commands
 open bash on linux container for commands execution:  
-`docker exec -it app_linux bash`  
+`docker-compose exec linux bash`  
 ```
-🐳 app_linux ~ # exit
-```
-
-exec commands on linux container:  
-```
-docker exec -it app_linux bash -c 'cat /etc/os-release'
-docker exec -it app_linux bash -c 'bash --version'
-docker exec -it app_linux bash -c 'git --version'
+🐳 [app_linux ~]# exit
 ```
 
-open bash on app_mysql container for commands execution:  
-`docker exec -it app_mysql bash`  
+exec commands from host on linux container:  
 ```
-🐳 app_mysql mysql # mysql --version
+docker-compose exec linux bash -c 'cat /etc/os-release'
+docker-compose exec linux bash -c 'bash --version'
+```
+
+open bash on mysql container for commands execution:  
+`docker-compose exec mysql bash`  
+```
+🐳 [app_mysql mysql]# mysql --version
 mysql  Ver 15.1 Distrib 10.5.9-MariaDB, for debian-linux-gnu (x86_64) using readline 5.2
 ```
 
-open mysql console on app_mysql container (no password required):  
-`docker exec -it app_mysql mysql`  
+open mysql console from host on mysql container (no password required):  
+`docker-compose exec mysql mysql`  
 ```
 Welcome to the MariaDB monitor.  Commands end with ; or \g.
 Your MariaDB connection id is 5
@@ -158,17 +199,24 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 MariaDB [app]>
 ```
 
-open bash on app_php container for commands execution:  
-`docker exec -it app_php bash`  
+open bash on php container for commands execution:  
+`docker-compose exec php bash`  
 ```
-🐳 app_php www # php -v
+🐳 [app_php www]# php -v
 PHP 8.0.3 (cli) (built: Mar  6 2021 03:38:04) ( NTS )
 Copyright (c) The PHP Group
 Zend Engine v4.0.3, Copyright (c) Zend Technologies
 
-🐳 app_php www # composer -V
+🐳 [app_php www]# composer -V
 Composer version 2.0.11 2021-02-24 14:57:23
 
-🐳 app_php www # symfony -V
+🐳 [app_php www]# symfony -V
 Symfony CLI version v4.23.2 (2021-03-02T17:16:03+0000 - stable)
+```
+
+exec commands from host on php container:  
+```
+docker-compose exec php php -v
+docker-compose exec php composer -V
+docker-compose exec php symfony -V
 ```
