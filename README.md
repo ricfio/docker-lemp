@@ -72,23 +72,21 @@ Move in the app (docker-lemp) folder:
 You can customize the configuration changing several variables in the .env file.  
 Following some example:  
 
-| Key                 | Current value   | Description             |
-|---------------------|:---------------:|-------------------------|
-| APP_NAME            | app             | Application name        |
-| APP_PATH_SRC        | ./src           | Application src path    |
-| APP_PATH_TEST       | ./test          | Application test path   |
-| APP_PATH_WWW        | ./www           | Application www path    |
-| NGINX_VERSION       | 1.19            | NGINX version           |
-| NGINX_HOST          | localhost       | NGINX server_name       |
-| NGINX_ROOT          | /var/www/public | NGINX root              |
-| NGINX_PORT_HTTP     | 80              | NGINX http port         |
-| NGINX_PORT_HTTPS    | 443             | NGINX https port        |
-| MYSQL_USER          | user            | MySQL user              |
-| MYSQL_PASSWORD      | user            | MySQL password          |
-| MYSQL_ROOT_PASSWORD | root            | MySQL root password     |
-| MYSQL_PORT          | 3306            | MySQL port              |
-| PHP_VERSION         | 7.4.16          | PHP version             |
-| PHP_SYSTEM_TZ       | Europe/Rome     | PHP timezone            |
+| Key                 | Description             | Current value   |
+|---------------------|-------------------------|:---------------:|
+| APP_NAME            | Application name        | app             |
+| APP_PATH_WWW        | Application www path    | ./www           |
+| NGINX_VERSION       | NGINX version           | 1.19            |
+| NGINX_HOST          | NGINX server_name       | localhost       |
+| NGINX_ROOT          | NGINX root              | /var/www        |
+| NGINX_PORT_HTTP     | NGINX http port         | 80              |
+| NGINX_PORT_HTTPS    | NGINX https port        | 443             |
+| MYSQL_USER          | MySQL user              | user            |
+| MYSQL_PASSWORD      | MySQL password          | user            |
+| MYSQL_ROOT_PASSWORD | MySQL root password     | root            |
+| MYSQL_PORT          | MySQL port              | 3306            |
+| PHP_VERSION         | PHP version             | 7.4.16          |
+| PHP_SYSTEM_TZ       | PHP timezone            | Europe/Rome     |
 
 Build the Docker Containers:  
 `docker-compose build`  

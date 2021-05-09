@@ -9,8 +9,6 @@ services:
     volumes:
       - ./opt:/opt
       - ./log:/var/log
-      - ${APP_PATH_SRC}:/root/src
-      - ${APP_PATH_TEST}:/root/test
       - ${APP_PATH_WWW}:/var/www
 
   nginx:
@@ -31,10 +29,8 @@ services:
     volumes:
       - ./opt:/opt
       - ./log:/var/log
-      - ${APP_PATH_SRC}:/root/src
-      - ${APP_PATH_TEST}:/root/test
-      - ${APP_PATH_WWW}:/var/www
       - ./docker/nginx/templates:/etc/nginx/templates
+      - ${APP_PATH_WWW}:/var/www
 
   mysql:
     build:
@@ -72,8 +68,6 @@ services:
     volumes:
       - ./opt:/opt
       - ./log:/var/log
-      - ${APP_PATH_SRC}:/root/src
-      - ${APP_PATH_TEST}:/root/test
       - ${APP_PATH_WWW}:/var/www
 
 networks:
