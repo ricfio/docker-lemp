@@ -59,12 +59,18 @@ services:
       args:
         - PHP_VERSION=${PHP_VERSION:-7.4.16}
         - PHP_SYSTEM_TZ=${PHP_SYSTEM_TZ:-Europe/London}
+        - XDEBUG_MODE=${XDEBUG_MODE:-off}
+        - XDEBUG_CLIENT_PORT=${XDEBUG_CLIENT_PORT:-9003}
+        - XDEBUG_CLIENT_HOST=${XDEBUG_CLIENT_HOST:-localhost}
     container_name: ${APP_NAME}_php
     environment:
       - APP_ENV=${APP_ENV}
       - APP_SECRET=${APP_SECRET}
       - DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:${MYSQL_PORT}/${APP_NAME}?serverVersion=5.7
     hostname: ${APP_NAME}_php
+    ports:
+      - "${PHP_PORT:-9000}:9000"
+      - "${XDEBUG_CLIENT_PORT:-9003}:9003"
     volumes:
       - ./opt:/opt
       - ./log:/var/log

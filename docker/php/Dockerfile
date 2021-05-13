@@ -5,13 +5,28 @@ WORKDIR /var/www
 
 CMD ["php-fpm"]
 
-EXPOSE 9000
+EXPOSE 9000 9003
 
 # INSTALL: bash, git, tzdata
-RUN apk add --no-cache bash git tzdata
+RUN apk add --no-cache \
+    bash \
+    git \
+    tzdata \
+    gettext
 
-# INSTALL: PHP extensions (pdo_mysql)
-RUN docker-php-ext-install pdo_mysql
+# INSTALL: Xdebug
+ARG XDEBUG_MODE=off
+ARG XDEBUG_CLIENT_PORT=9003
+ARG XDEBUG_CLIENT_HOST=host.docker.internal
+COPY conf.d/docker-php-ext-xdebug.ini.template /usr/local/etc/php/conf.d/
+RUN apk --no-cache add $PHPIZE_DEPS && \
+    pecl install xdebug && \
+    docker-php-ext-enable xdebug && \
+    export XDEBUG_MODE=$XDEBUG_MODE && \
+    export XDEBUG_CLIENT_PORT=$XDEBUG_CLIENT_PORT && \
+    export XDEBUG_CLIENT_HOST=$XDEBUG_CLIENT_HOST && \
+    envsubst < /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini.template > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
+    rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini.template
 
 # INSTALL: composer, symfony
 COPY --from=composer /usr/bin/composer /usr/bin/composer
