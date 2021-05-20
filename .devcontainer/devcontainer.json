@@ -1,0 +1,39 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.166.1/containers/php-mariadb
+// Update the VARIANT arg in docker-compose.yml to pick a PHP version: 7, 7.3, 7.4 
+{
+	"name": "lemp",
+	"dockerComposeFile": "../docker-compose.yml",
+	"service": "php-fpm",
+	"workspaceFolder": "/var/www",
+	
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"phpserver.phpPath": "/usr/local/bin/php",
+		"terminal.integrated.defaultProfile.linux": "bash",
+		"terminal.integrated.profiles.linux": {
+			"bash": {
+				"path": "/bin/bash",
+				"args": [],
+			},
+		},
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"bmewburn.vscode-intelephense-client",
+		"getpsalm.psalm-vscode-plugin",
+		"swordev.phpstan",
+		"emallin.phpunit",
+		"felixfbecker.php-debug",
+	],
+
+	// For use with PHP or Apache (e.g.php -S localhost:8080 or apache2ctl start)
+	// "forwardPorts": [3306],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html"
+
+	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	//"remoteUser": "vscode"
+}
