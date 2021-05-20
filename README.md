@@ -24,6 +24,9 @@ The solution includes also extra software and tools:
 - [Git](https://git-scm.com/)
 - [Composer](https://getcomposer.org/)
 - [Symphony](https://symfony.com/)
+- [PHPUnit](https://phpunit.de/index.html)
+- [Psalm](https://psalm.dev/)
+- [PHPStan](https://phpstan.org/)
 
 ## Aliases for docker-compose commands
 
