@@ -1,6 +1,6 @@
 alias dc='docker-compose'
 
-alias dc-linux='docker-compose exec linux bash'
+alias dc-linux='docker-compose exec php bash'
 alias dc-php='docker-compose exec php php'
 alias dc-composer='docker-compose exec php composer'
 alias dc-symfony='docker-compose exec php symfony'

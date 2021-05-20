@@ -1,21 +1,9 @@
 services:
-  linux:
-    build:
-      context: ./docker/linux
-    container_name: ${APP_NAME}_linux
-    hostname: ${APP_NAME}_linux
-    stdin_open: true # docker run -i
-    tty: true        # docker run -t
-    volumes:
-      - ./opt:/opt
-      - ./log:/var/log
-      - ${APP_PATH_WWW}:/var/www
 
   nginx:
     image: nginx:${NGINX_VERSION:-1.19}-alpine
-    container_name: ${APP_NAME}_nginx
     depends_on:
-      - php
+      - php-fpm
     environment:
       - NGINX_ENVSUBST_OUTPUT_DIR=/etc/nginx/conf.d
       - NGINX_ENVSUBST_TEMPLATE_DIR=/etc/nginx/templates
@@ -27,10 +15,9 @@ services:
       - "${NGINX_PORT_HTTP:-80}:80"
       - "${NGINX_PORT_HTTPS:-443}:443"
     volumes:
-      - ./opt:/opt
       - ./log:/var/log
-      - ./docker/nginx/templates:/etc/nginx/templates
       - ${APP_PATH_WWW}:/var/www
+      - ./docker/nginx/templates:/etc/nginx/templates
 
   mysql:
     build:
@@ -38,7 +25,6 @@ services:
       args:
         - MYSQL_DATABASE=${APP_NAME}
         - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-root}
-    container_name: ${APP_NAME}_mysql
     environment:
       - MYSQL_DATABASE=${APP_NAME}
       - MYSQL_USER=${MYSQL_USER}
@@ -48,12 +34,11 @@ services:
     ports:
       - "${MYSQL_PORT:-3306}:3306"
     volumes:
-      - ./opt:/opt
       - ./log:/var/log
       - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./docker/mysql/data:/var/lib/mysql
 
-  php:
+  php-fpm:
     build:
       context: ./docker/php
       args:
@@ -62,20 +47,14 @@ services:
         - XDEBUG_MODE=${XDEBUG_MODE:-off}
         - XDEBUG_CLIENT_PORT=${XDEBUG_CLIENT_PORT:-9003}
         - XDEBUG_CLIENT_HOST=${XDEBUG_CLIENT_HOST:-localhost}
-    container_name: ${APP_NAME}_php
     environment:
       - APP_ENV=${APP_ENV}
       - APP_SECRET=${APP_SECRET}
       - DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:${MYSQL_PORT}/${APP_NAME}?serverVersion=5.7
-    hostname: ${APP_NAME}_php
+    hostname: ${APP_NAME}
     ports:
       - "${PHP_PORT:-9000}:9000"
       - "${XDEBUG_CLIENT_PORT:-9003}:9003"
     volumes:
-      - ./opt:/opt
       - ./log:/var/log
       - ${APP_PATH_WWW}:/var/www
-
-networks:
-  default:
-    name: ${APP_NAME}
