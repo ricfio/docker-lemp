@@ -37,6 +37,6 @@ ARG PHP_SYSTEM_TZ=Europe/London
 ENV TZ=$PHP_SYSTEM_TZ
 
 # CUSTOMIZE: .bashrc
-RUN echo "export PS1='🐳 [\[\033[1;36m\]\h \[\033[1;34m\]\W\[\033[0m\]]\[\033[1;36m\]# \[\033[0m\]'" >> ~/.bashrc
+RUN echo "export PS1='🐳 [\[\033[1;36m\]\u@\h\[\033[0m\] \[\033[1;34m\]\W\[\033[0m\]]\\$ '" >> ~/.bashrc
 
 SHELL ["/bin/bash"]
