@@ -7,26 +7,33 @@
 	"service": "php-fpm",
 	"workspaceFolder": "/var/www",
 	
-	// Set *default* container specific settings.json values on container create.
-	"settings": {
-		"phpserver.phpPath": "/usr/local/bin/php",
-		"terminal.integrated.defaultProfile.linux": "bash",
-		"terminal.integrated.profiles.linux": {
-			"bash": {
-				"path": "/bin/bash",
-				"args": [],
+	"customizations": {
+		"vscode": {
+			// Set *default* container specific settings.json values on container create.
+			"settings": {
+				"phpserver.phpPath": "/usr/local/bin/php",
+				"terminal.integrated.defaultProfile.linux": "bash",
+				"terminal.integrated.profiles.linux": {
+					"bash": {
+						"path": "/bin/bash",
+						"args": []
+					}
+				}
 			},
-		},
-	},
 
-	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": [
-		"bmewburn.vscode-intelephense-client",
-		"getpsalm.psalm-vscode-plugin",
-		"swordev.phpstan",
-		"emallin.phpunit",
-		"felixfbecker.php-debug",
-	],
+			// Add the IDs of extensions you want installed when the container is created.
+			"extensions": [
+				"davidanson.vscode-markdownlint",
+				"mhutchie.git-graph",
+				"gruntfuggly.todo-tree",
+				"bmewburn.vscode-intelephense-client",
+				"getpsalm.psalm-vscode-plugin",
+				"swordev.phpstan",
+				"emallin.phpunit",
+				"felixfbecker.php-debug"
+			]
+		}
+	},
 
 	// For use with PHP or Apache (e.g.php -S localhost:8080 or apache2ctl start)
 	// "forwardPorts": [3306],
