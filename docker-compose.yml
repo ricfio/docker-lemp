@@ -18,6 +18,7 @@ services:
       - ./log:/var/log
       - ${APP_PATH_WWW}:/var/www
       - ./docker/nginx/templates:/etc/nginx/templates
+      - /var/run/docker.sock:/var/run/docker.sock
 
   mysql:
     build:
